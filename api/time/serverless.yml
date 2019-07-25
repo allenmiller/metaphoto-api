@@ -4,9 +4,10 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: dev
-  region: us-west-2
+  region: ${cf:metaphoto-us-west-2-dev.Region}
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
-  dataBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoDataBucket}
+
+local:
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
 
@@ -29,10 +30,10 @@ custom:
   # TODO: create a pipeline action to automate this cleanup
 
   customDomain:
-    domainName: api.${self:provider.domain}
     stage: ${self:provider.stage}
     basePath: ${self:provider.stage}
-    certificateArn: ${self:provider.certificateArn}
+    domainName: api.${self:local.domain}
+    certificateArn: ${self:local.certificateArn}
     endpointType: REGIONAL
     createRoute53Record: true
 
