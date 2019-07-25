@@ -57,5 +57,5 @@ resources:
   Outputs:
     URL:
       Value: !Ref ApiGatewayRestApi
-    Export:
-      Name: MetaphotoApiUrl
+      Export:
+        Name: MetaphotoApiUrl
