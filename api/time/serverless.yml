@@ -7,13 +7,14 @@ provider:
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
 
+
+plugins:
+  - serverless-domain-manager
+
 custom:
   stage: ${opt:stage, self:provider.stage}
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
-
-plugins:
-  - serverless-domain-manager
 
   # Important: The Route53 A and AAAA domain records created by serverless-domain-manager are managed by the API,
   # not Cloudformation.  They do not appear as Resources in the Cloudformation stack for this service.  Do not manage
