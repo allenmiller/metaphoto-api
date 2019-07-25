@@ -44,6 +44,7 @@ functions:
           path: time
           method: get
           cors: true
+
   gettimesecure:
     handler: time.handler
     events:
