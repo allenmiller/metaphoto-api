@@ -5,7 +5,7 @@ phases:
       nodejs: 10
     commands:
       - cd api/time
-      - npm install -g serverless@1.48.0
+      - npm install -g serverless
       - npm install serverless-domain-manager
   build:
     commands:
