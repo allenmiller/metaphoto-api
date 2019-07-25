@@ -56,6 +56,6 @@ functions:
 resources:
   Outputs:
     URL:
-      Value: https://${self:custom.domain}/${self:custom.stage}
+      Value: https://${self:custom.customDomain.domainName}/${self:custom.stage}
       Export:
         Name: MetaphotoApiUrl
