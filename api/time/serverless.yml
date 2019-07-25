@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: dev
-  region: ${cf:metaphoto-us-west-2-dev.Region}
+  region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
 
 local:
