@@ -7,14 +7,13 @@ provider:
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
 
 plugins:
   - serverless-domain-manager
-
-custom:
-  stage: ${opt:stage, self:provider.stage}
 
   # Important: The Route53 A and AAAA domain records created by serverless-domain-manager are managed by the API,
   # not Cloudformation.  They do not appear as Resources in the Cloudformation stack for this service.  Do not manage
@@ -29,10 +28,10 @@ custom:
   # TODO: create a pipeline action to automate this cleanup
 
   customDomain:
-    stage: ${self:provider.stage}
-    basePath: ${self:provider.stage}
-    domainName: api.${self:provider.domain}
-    certificateArn: ${self:provider.certificateArn}
+    stage: ${self:custom.stage}
+    basePath: ${self:custom.stage}
+    domainName: api.${self:custom.domain}
+    certificateArn: ${self:custom.certificateArn}
     endpointType: REGIONAL
     createRoute53Record: true
 
@@ -56,6 +55,6 @@ functions:
 resources:
   Outputs:
     URL:
-      Value: !Ref ApiGatewayRestApi
+      Value: !Join ["", ["https://", ${self:custom.domain}, "/", ${self:custom.state}]]
       Export:
         Name: MetaphotoApiUrl
