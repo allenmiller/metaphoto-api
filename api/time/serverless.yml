@@ -7,7 +7,6 @@ provider:
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
 
-local:
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
 
@@ -32,8 +31,8 @@ custom:
   customDomain:
     stage: ${self:provider.stage}
     basePath: ${self:provider.stage}
-    domainName: api.${self:local.domain}
-    certificateArn: ${self:local.certificateArn}
+    domainName: api.${self:provider.domain}
+    certificateArn: ${self:provider.certificateArn}
     endpointType: REGIONAL
     createRoute53Record: true
 
