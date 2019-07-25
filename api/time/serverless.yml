@@ -56,6 +56,6 @@ functions:
 resources:
   Outputs:
     URL:
-      Value: !Join ["", ["https://", ${self:custom.domain}, "/", ${self:custom.state}]]
+      Value: https://${self:custom.domain}/${self:custom.stage}
       Export:
         Name: MetaphotoApiUrl
