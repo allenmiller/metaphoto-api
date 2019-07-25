@@ -44,15 +44,15 @@ functions:
           path: time
           method: get
           cors: true
+          authorizer: aws_iam
 
   gettimesecure:
     handler: time.handler
     events:
       - http:
-          path: timesecure
+          path: timeinsecure
           method: get
           cors: true
-          authorizer: aws_iam
 
 resources:
   Outputs:
