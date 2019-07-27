@@ -43,10 +43,10 @@ functions:
     handler: filmStock.put
     events:
       - http:
-        path: filmstock
-        method: put
-        cors: true
-        authorizer: aws_iam
+          path: filmstock
+          method: put
+          cors: true
+          authorizer: aws_iam
 
   gettime:
     handler: time.handler
