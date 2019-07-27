@@ -1,5 +1,4 @@
-import AWS from 'aws-sdk';
-
+let AWS = require('aws-sdk');
 
 exports.put = (event, context, callback) => {
 
@@ -14,8 +13,8 @@ exports.put = (event, context, callback) => {
             statusCode: err ? '400' : '200',
             body: err ? err.message : JSON.stringify(res),
             headers: {
-                'Content-Type': 'application/json',
-            },
+                'Content-Type': 'application/json'
+            }
         });
     };
 
