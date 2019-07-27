@@ -42,7 +42,7 @@ functions:
   putFilmStock:
     handler: filmStock.put
     events:
-      -http:
+      - http:
         path: filmstock
         method: put
         cors: true
