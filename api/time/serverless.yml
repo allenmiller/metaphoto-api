@@ -15,7 +15,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
-  mediaTable: ${cf:MediaTableArn}
+#  mediaTable: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
 
   # Important: The Route53 A and AAAA domain records created by serverless-domain-manager are managed by the API,
   # not Cloudformation.  They do not appear as Resources in the Cloudformation stack for this service.  Do not manage
