@@ -15,6 +15,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
+  mediaTable: ${cf:MediaTableArn}
 
   # Important: The Route53 A and AAAA domain records created by serverless-domain-manager are managed by the API,
   # not Cloudformation.  They do not appear as Resources in the Cloudformation stack for this service.  Do not manage
@@ -37,6 +38,16 @@ custom:
     createRoute53Record: true
 
 functions:
+
+  putFilmStock:
+    handler: filmStock.put
+    events:
+      -http:
+        path: filmstock
+        method: put
+        cors: true
+        authorizer: aws_iam
+
   gettime:
     handler: time.handler
     events:
@@ -46,7 +57,7 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  gettimesecure:
+  gettimeinsecure:
     handler: time.handler
     events:
       - http:
