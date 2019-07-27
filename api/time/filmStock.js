@@ -22,6 +22,7 @@ exports.put = (event, context, callback) => {
         "mediaId": "45-abc",
         "mediaType": "45-TXP-320",
         "data": {
+            iso: 320,
             field1: "field1",
             field2: true
         }
