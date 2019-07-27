@@ -19,12 +19,9 @@ exports.put = (event, context, callback) => {
     };
 
     let record = {
-        MediaName: "45-abc",
-        MediaType: "45-TXP-320",
-        Data: {
-            Holder: "18",
-            DateLoaded: "July1"
-        }
+        mediaId: "45-abc",
+        mediaType: "45-TXP-320",
+        Data: "data"
     };
 
     console.log("writing: ", record);
