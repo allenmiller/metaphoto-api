@@ -21,7 +21,10 @@ exports.put = (event, context, callback) => {
     let record = {
         "mediaId": "45-abc",
         "mediaType": "45-TXP-320",
-        "data": "data"
+        "data": {
+            field1: "field1",
+            field2: true
+        }
     };
 
     console.log("writing: ", record);
