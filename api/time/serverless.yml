@@ -6,7 +6,17 @@ provider:
   stage: dev
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
-
+  mediaTableArn: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: ${self:provider.mediaTableArn}
 
 plugins:
   - serverless-domain-manager
