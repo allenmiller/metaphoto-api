@@ -3,6 +3,8 @@ import AWS from 'aws-sdk';
 
 exports.put = (event, context, callback) => {
 
+    console.log("AJM: in put(), event: ", event);
+    console.log("AJM: context", context);
     const dynamodb = new AWS.DynamoDB();
     console.log('AJM: Received event:', JSON.stringify(event, null, 2));
     console.log('context:', JSON.stringify(context, null, 2));
