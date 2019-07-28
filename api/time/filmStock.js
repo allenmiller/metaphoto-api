@@ -44,7 +44,7 @@ exports.getAll = (event, context, callback) => {
         statusCode: 200,
         body: results,
         headers: {
-            'Content-Type' : 'applicaiton/json'
+            'Content-Type' : 'application/json'
         }
     })
 };
