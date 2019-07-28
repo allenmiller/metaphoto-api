@@ -11,7 +11,7 @@ exports.getAll = (event, context, callback) => {
         TableName: MEDIA_TABLE_NAME
     };
 
-    console.log("Scanning Movies table.");
+    console.log("Scanning "+ MEDIA_TABLE_NAME +" table.");
     dynamodb.scan(params, onScan);
 
     let results = [];
@@ -67,9 +67,9 @@ exports.put = (event, context, callback) => {
         "mediaId": "45-def",
         "mediaType": "45-TXT-400",
         "data": {
-            iso: 320,
-            field1: "field1",
-            field2: true
+            "iso": "320",
+            "field1": "value1",
+            "field2": "true"
         }
     };
 
