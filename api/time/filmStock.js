@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const dynamodb = AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
