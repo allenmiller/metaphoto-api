@@ -74,5 +74,5 @@ exports.put = (event, context, callback) => {
     };
 
     console.log("writing: ", record);
-    dynamodb.putItem({TableName: MEDIA_TABLE_NAME, Item: record}, done);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: record}, done);
 };
