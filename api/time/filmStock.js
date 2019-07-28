@@ -64,8 +64,8 @@ exports.put = (event, context, callback) => {
     };
 
     let record = {
-        "mediaId": "45-abc",
-        "mediaType": "45-TXP-320",
+        "mediaId": "45-def",
+        "mediaType": "45-TXT-400",
         "data": {
             iso: 320,
             field1: "field1",
