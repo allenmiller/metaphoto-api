@@ -1,11 +1,56 @@
-const doc = require('dynamodb-doc');
-const dynamodb = new doc.DynamoDB();
+const AWS = require('aws-sdk');
+const dynamodb = AWS.DynamoDB.DocumentClient();
+
+const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
+
+exports.getAll = (event, context, callback) => {
+    console.log('AJM getAll(): Received event:', JSON.stringify(event, null, 2));
+    console.log('context:', JSON.stringify(context, null, 2));
+
+    const params = {
+        TableName: MEDIA_TABLE_NAME
+    };
+
+    console.log("Scanning Movies table.");
+    dynamodb.scan(params, onScan);
+
+    let results = [];
+    function onScan(err, data) {
+        if (err) {
+            console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+            callback(null, {
+                statusCode: 404,
+                body: Json.stringify("No items found"),
+                headers: {
+                    'Content-Type' : 'application/json'
+                }
+            })
+        } else {
+            console.log("Scan succeeded.");
+            data.Items.forEach(function(item) {
+                console.log(item);
+                results.push(item);
+            });
+
+            if (typeof data.LastEvaluatedKey != "undefined") {
+                console.log("Scanning for more...");
+                params.ExclusiveStartKey = data.LastEvaluatedKey;
+                dynamodb.scan(params, onScan);
+            }
+        }
+    }
+    console.log(results);
+    callback(null, {
+        statusCode: 200,
+        body: results,
+        headers: {
+            'Content-Type' : 'applicaiton/json'
+        }
+    })
+};
 
 exports.put = (event, context, callback) => {
-
-    console.log("AJM: in put(), event: ", event);
-    console.log("AJM: context", context);
-    console.log('AJM: Received event:', JSON.stringify(event, null, 2));
+    console.log('AJM put(): Received event:', JSON.stringify(event, null, 2));
     console.log('context:', JSON.stringify(context, null, 2));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
@@ -29,5 +74,5 @@ exports.put = (event, context, callback) => {
     };
 
     console.log("writing: ", record);
-    dynamodb.putItem({TableName: "metaphoto-dev", Item: record}, done);
+    dynamodb.putItem({TableName: MEDIA_TABLE_NAME, Item: record}, done);
 };

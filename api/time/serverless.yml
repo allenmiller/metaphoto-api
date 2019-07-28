@@ -7,6 +7,8 @@ provider:
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
   mediaTableArn: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
+  environment:
+    MEDIA_TABLE_NAME: ${cf:metaphoto-us-west-2-dev.MediaTableName}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -55,6 +57,15 @@ functions:
       - http:
           path: filmstock
           method: put
+          cors: true
+          authorizer: aws_iam
+
+  getAllFilmStocks:
+    handler: filmStock.getAll
+    events:
+      - http:
+          path: filmstocks
+          method: get
           cors: true
           authorizer: aws_iam
 
