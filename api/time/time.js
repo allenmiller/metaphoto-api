@@ -9,5 +9,6 @@ exports.handler = (event, context, callback) => {
             'Content-Type': 'application/json'
         }
     };
+    console.log("AJM: ", response);
     callback(null, response);
 };
