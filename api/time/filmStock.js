@@ -62,16 +62,18 @@ exports.put = (event, context, callback) => {
             }
         });
     };
+    let data = {
+        "iso": "320",
+            "field1": "value1",
+            "field2": "true"
+    };
 
+    let payload = JSON.stringify(data);
     let record = {
         "mediaId": "45-def",
         "mediaType": "45-TXT-400",
-        "data": {
-            "iso": "320",
-            "field1": "value1",
-            "field2": "true"
-        }
-    };
+        "data" : payload
+        };
 
     console.log("writing: ", record);
     dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: record}, done);
