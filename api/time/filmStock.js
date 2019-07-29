@@ -63,9 +63,9 @@ exports.put = (event, context, callback) => {
         });
     };
     let data = {
-        "iso": "320",
+        "iso": 320,
             "field1": "value1",
-            "field2": "true"
+            "field2": true
     };
 
     let payloadStr = JSON.stringify(data);
