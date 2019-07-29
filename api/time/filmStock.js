@@ -26,7 +26,7 @@ exports.getAll = (event, context, callback) => {
                 }
             })
         } else {
-            console.log("Scan succeeded.");
+            console.log("Scan succeeded: ", data);
             data.Items.forEach(function(item) {
                 console.log(item);
                 results.push(item);
@@ -68,13 +68,21 @@ exports.put = (event, context, callback) => {
             "field2": "true"
     };
 
-    let payload = JSON.stringify(data);
-    let record = {
-        "mediaId": "45-def",
+    let payloadStr = JSON.stringify(data);
+    let recordStr = {
+        "mediaId": "45-str",
         "mediaType": "45-TXT-400",
-        "data" : payload
-        };
+        "data" : payloadStr
+    };
+
+    let recordObj = {
+        "mediaId": "45-obj",
+        "mediaType": "45-TXT-400",
+        "data" : data
+    };
 
     console.log("writing: ", record);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: record}, done);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordObj}, done);
+
 };
