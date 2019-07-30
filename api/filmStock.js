@@ -74,10 +74,15 @@ exports.post = (event, context, callback) => {
         messages.push('Film Code must be a string ("TXP"');
     }
 
-    const validateFilmType = utils.validateFilmType;
-    const validationResult = validateFilmType(requestBody.filmType);
+
+    let validationResult = utils.validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
         messages.push("Film Type must be one of: " + JSON.stringify([...validationResult.validFilmTypes]));
+    }
+
+    validationResult = utils.validateFilmFormat(requestBody.filmFormat);
+    if (!validationResult.isValid) {
+        messages.push("Film Format must be one of: " + JSON.stringify([...validationResult.validFilmFormats]));
     }
 
     if (messages.length > 0) {

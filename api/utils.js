@@ -21,5 +21,19 @@ module.exports= {
         return validFilmTypes.has(filmType)
             ? {isValid: true}
             : {isValid: false, validFilmTypes: validFilmTypes};
+    },
+
+    validateFilmFormat: function validateFilmFormat(filmFormat) {
+        const validFormats = new Set([
+            "35mm",
+            "120",
+            "116",
+            "220",
+            "4x5",
+            "8x10"
+        ]);
+        return validFormats.has(filmFormat)
+        ? {isValid: true}
+        : {isValid: false, validFilmFormats: validFormats}
     }
 };
