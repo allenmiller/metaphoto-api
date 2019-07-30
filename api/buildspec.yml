@@ -4,11 +4,10 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - cd api/time
+      - cd api
       - npm install -g serverless
       - npm install serverless-domain-manager
   build:
     commands:
-      - export SLS_DEBUG=1
       - serverless create_domain
       - serverless deploy

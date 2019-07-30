@@ -88,14 +88,6 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  gettimeinsecure:
-    handler: time.handler
-    events:
-      - http:
-          path: timeinsecure
-          method: get
-          cors: true
-
 resources:
   Outputs:
     URL:
