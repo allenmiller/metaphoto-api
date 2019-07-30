@@ -53,7 +53,7 @@ exports.post = (event, context, callback) => {
 
     let message = [];
 
-    let body = event.body;
+    let body = JSON.parse(event.body);
     if (body === null) {
         message.push("request body is mussing");
         callback(null, buildResponse('400', message));
