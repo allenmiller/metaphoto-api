@@ -39,7 +39,7 @@ module.exports = {
 
     getStandardHeaders: function getStandardHeaders() {
         return {
-            'Access-Control-Allow-Origin': WEB_APP_URL,
+            'Access-Control-Allow-Origin': this.WEB_APP_URL,
             'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json'
         }
