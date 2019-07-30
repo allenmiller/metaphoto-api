@@ -65,11 +65,17 @@ exports.post = (event, context, callback) => {
     }
 
     if (typeof requestBody.filmName != 'string') {
-        message.push('filmName must be a string ("Kodak Tri-X"');
+        message.push('Film Name must be a string ("Kodak Tri-X"');
     }
 
     if (typeof requestBody.filmCode != 'string') {
-        message.push('filmCode must be a string ("TXP"');
+        message.push('Film Code must be a string ("TXP"');
+    }
+
+    const validateFilmType = utils.validateFilmType;
+    const validationResult = validateFilmType(requestBody.filmType);
+    if (!validationResult.isValid) {
+        message.push("Film Type must be one of: " + JSON.stringify(validationResult.validFilmTypes));
     }
 
     if (message.length > 0) {
