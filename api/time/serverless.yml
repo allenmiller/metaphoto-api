@@ -60,6 +60,14 @@ functions:
           cors: true
           authorizer: aws_iam
 
+  postFilmStock:
+    events:
+      - http:
+          path: filmstock
+          method: post
+          cors: true
+          authorizer: aws_iam
+
   getAllFilmStocks:
     handler: filmStock.getAll
     events:
