@@ -60,7 +60,8 @@ exports.post = (event, context, callback) => {
     }
 
     message.push(typeof body.ISO);
-    if (typeof body.ISO != 'number') {
+    let iso = body.ISO;
+    if (typeof iso != 'number') {
         message.push("ISO must be a number.")
     }
 
