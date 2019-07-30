@@ -82,7 +82,7 @@ exports.post = (event, context, callback) => {
     let itemToPutStr = JSON.stringify(itemToPut);
 
     console.log("writing: ", itemToPutStr);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPutStr}, done);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
 };
 
 exports.put = (event, context, callback) => {
