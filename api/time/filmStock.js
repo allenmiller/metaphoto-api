@@ -70,14 +70,14 @@ exports.put = (event, context, callback) => {
 
     let payloadStr = JSON.stringify(data);
     let recordStr = {
-        "mediaId": "45-str",
-        "mediaType": "45-TXT-400",
+        "primaryKey": "45-str",
+        "sortKey": "45-TXT-400",
         "data" : payloadStr
     };
 
     let recordObj = {
-        "mediaId": "45-obj",
-        "mediaType": "45-TXT-400",
+        "primaryKey": "45-obj",
+        "sortKey": "45-TXT-400",
         "data" : data
     };
 
