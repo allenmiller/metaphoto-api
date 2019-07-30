@@ -52,34 +52,35 @@ exports.post = (event, context, callback) => {
         ));
     };
 
-    let message = [];
+    let messages = [];
 
     let requestBody = JSON.parse(event.body);
     if (requestBody === null) {
-        message.push("request body is missing");
-        callback(null, buildResponse('400', message));
+        messages.push("request body is missing");
+        callback(null, buildResponse('400', messages));
     }
 
     if (typeof requestBody.iso != 'number') {
-        message.push("ISO must be a number.")
+        messages.push("ISO must be a number.")
     }
 
     if (typeof requestBody.filmName != 'string') {
-        message.push('Film Name must be a string ("Kodak Tri-X"');
+        messages.push('Film Name must be a string ("Kodak Tri-X"');
     }
 
     if (typeof requestBody.filmCode != 'string') {
-        message.push('Film Code must be a string ("TXP"');
+        messages.push('Film Code must be a string ("TXP"');
     }
 
     const validateFilmType = utils.validateFilmType;
     const validationResult = validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
-        message.push("Film Type must be one of: " + JSON.stringify([...validationResult.validFilmTypes]));
+        messages.push("Film Type must be one of: " + JSON.stringify([...validationResult.validFilmTypes]));
     }
 
-    if (message.length > 0) {
-        callback(null, buildResponse('400', message));
+    if (messages.length > 0) {
+        callback(null, buildResponse('400', messages));
+        console.log("AFTER CALLBACK?")
     }
 
     let itemToPut = {};
