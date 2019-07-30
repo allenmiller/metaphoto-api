@@ -1,9 +1,11 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const uuidv1 = require('uuid/v1');
+const utils = require('./utils');
 
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
+const buildResponse = utils.buildResponse;
 exports.getAll = (event, context, callback) => {
     console.log('AJM getAll(): Received event:', JSON.stringify(event, null, 2));
     console.log('context:', JSON.stringify(context, null, 2));
@@ -19,13 +21,7 @@ exports.getAll = (event, context, callback) => {
     function onScan(err, data) {
         if (err) {
             console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-            callback(null, {
-                statusCode: 404,
-                body: Json.stringify("No items found"),
-                headers: {
-                    'Content-Type' : 'application/json'
-                }
-            })
+            callback(null, buildResponse('404', 'No items found'));
         } else {
             console.log("Scan succeeded: ", data);
             data.Items.forEach(function(item) {
@@ -41,13 +37,7 @@ exports.getAll = (event, context, callback) => {
         }
     }
     console.log(results);
-    callback(null, {
-        statusCode: 200,
-        body: results,
-        headers: {
-            'Content-Type' : 'application/json'
-        }
-    })
+    callback(null, buildResponse('200', results));
 };
 
 exports.post = (event, context, callback) => {
@@ -55,25 +45,15 @@ exports.post = (event, context, callback) => {
     console.log('context:', JSON.stringify(context, null, 2));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
-        callback(null, {
-            statusCode: err ? '400' : '200',
-            body: err ? err.message : JSON.stringify(res),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        callback(null, buildResponse(
+            err ? '400' : '200',
+            err ? err.message : JSON.stringify(res)
+        ));
     };
 
     let body = event.body;
     if (body === null) {
-        let response = {
-            statusCode: 400,
-            body: JSON.stringify("ERROR: request body is missing."),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        callback(null, response)
+        callback(null, buildResponse('400', 'ERROR: request body is missing.'))
     }
 
     let primaryKey = "FilmSheet_" + uuidv1();
@@ -99,13 +79,10 @@ exports.put = (event, context, callback) => {
     console.log('context:', JSON.stringify(context, null, 2));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
-        callback(null, {
-            statusCode: err ? '400' : '200',
-            body: err ? err.message : JSON.stringify(res),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        callback(null, buildResponse(
+            err ? '400' : '200',
+            err ? err.message : JSON.stringify(res)
+        ));
     };
     let data = {
         "iso": 320,

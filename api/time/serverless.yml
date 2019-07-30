@@ -3,6 +3,7 @@ service: metaphoto-time
 provider:
   name: aws
   runtime: nodejs10.x
+  memorySize: 256
   stage: dev
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
