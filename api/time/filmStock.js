@@ -53,33 +53,36 @@ exports.post = (event, context, callback) => {
 
     let message = [];
 
-    let body = JSON.parse(event.body);
-    if (body === null) {
+    let requestBody = JSON.parse(event.body);
+    if (requestBody === null) {
         message.push("request body is mussing");
         callback(null, buildResponse('400', message));
     }
 
-    if (typeof body.iso != 'number') {
+    if (typeof requestBody.iso != 'number') {
         message.push("ISO must be a number.")
     }
 
-    if (typeof body.filmName != 'string') {
+    if (typeof requestBody.filmName != 'string') {
         message.push('filmName must be a string ("Kodak Tri-X"');
     }
 
-    if (typeof body.filmCode != 'string') {
+    if (typeof requestBody.filmCode != 'string') {
         message.push('filmCode must be a string ("TXP"');
     }
 
     if (message.length > 0) {
         callback(null, buildResponse('400', message));
     }
-    body.primaryKey = "FilmSheet_" + uuidv1();
-    body.sortKey = body.iso;
-    let recordStr = JSON.stringify(body);
 
-    console.log("writing: ", recordStr);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
+    let itemToPut = {};
+    itemToPut.primaryKey = "FilmSheet_" + uuidv1();
+    itemToPut.sortKey = requestBody.iso.toString();
+    itemToPut.data = requestBody;
+    let itemToPutStr = JSON.stringify(itemToPut);
+
+    console.log("writing: ", itemToPutStr);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPutStr}, done);
 };
 
 exports.put = (event, context, callback) => {
