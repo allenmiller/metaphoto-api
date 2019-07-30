@@ -6,8 +6,8 @@ const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
 const buildResponse = utils.buildResponse;
 exports.getAll = (event, context, callback) => {
-    console.log('AJM getAll(): Received event:', JSON.stringify(event, null, 2));
-    console.log('context:', JSON.stringify(context, null, 2));
+    console.log('AJM getAll(): Received event:', JSON.stringify(event));
+    console.log('context:', JSON.stringify(context));
 
     const params = {
         TableName: MEDIA_TABLE_NAME
@@ -42,8 +42,8 @@ exports.getAll = (event, context, callback) => {
 };
 
 exports.post = (event, context, callback) => {
-    console.log('AJM put(): Received event:', JSON.stringify(event, null, 2));
-    console.log('context:', JSON.stringify(context, null, 2));
+    console.log('AJM put(): Received event:', JSON.stringify(event));
+    console.log('context:', JSON.stringify(context));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
         callback(null, buildResponse(
@@ -56,7 +56,7 @@ exports.post = (event, context, callback) => {
 
     let requestBody = JSON.parse(event.body);
     if (requestBody === null) {
-        message.push("request body is mussing");
+        message.push("request body is missing");
         callback(null, buildResponse('400', message));
     }
 
@@ -77,8 +77,9 @@ exports.post = (event, context, callback) => {
     }
 
     let itemToPut = {};
-    itemToPut.primaryKey = "FilmSheet_" + uuidv1();
-    itemToPut.sortKey = requestBody.iso.toString();
+    itemToPut.primaryHashKey = "FilmSheet_" + uuidv1();
+    itemToPut.primaryRangeKey = requestBody.iso.toString();
+    itemToPut.gsi1HashKey = requestBody.filmCode;
     itemToPut.data = requestBody;
     let itemToPutStr = JSON.stringify(itemToPut);
 
@@ -89,8 +90,8 @@ exports.post = (event, context, callback) => {
 };
 
 exports.put = (event, context, callback) => {
-    console.log('AJM put(): Received event:', JSON.stringify(event, null, 2));
-    console.log('context:', JSON.stringify(context, null, 2));
+    console.log('AJM put(): Received event:', JSON.stringify(event));
+    console.log('context:', JSON.stringify(context));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
         callback(null, buildResponse(
