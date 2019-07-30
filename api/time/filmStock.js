@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const uuidv5 = require('uuid/v5');
+const uuidv1 = require('uuid/v1');
 
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
@@ -64,7 +64,7 @@ exports.post = (event, context, callback) => {
         });
     };
 
-    let primaryKey = "FilmSheet_" + uuidv5("sheetname", "metaphoto.ajmiller.net");
+    let primaryKey = "FilmSheet_" + uuidv1();
     let data = {
         "iso": 320,
         "field1": "value1",
