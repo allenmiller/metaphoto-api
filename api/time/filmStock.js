@@ -20,8 +20,9 @@ exports.getAll = (event, context, callback) => {
     let results = [];
     function onScan(err, data) {
         if (err) {
-            console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-            callback(null, buildResponse('404', 'No items found'));
+            let errorMessage = JSON.stringify(err);
+            console.error("Unable to scan the table. Error JSON:", errorMessage);
+            callback(null, buildResponse('404', err));
         } else {
             console.log("Scan succeeded: ", data);
             data.Items.forEach(function(item) {
@@ -34,10 +35,10 @@ exports.getAll = (event, context, callback) => {
                 params.ExclusiveStartKey = data.LastEvaluatedKey;
                 dynamodb.scan(params, onScan);
             }
+            console.log(results);
+            callback(null, buildResponse('200', results));
         }
     }
-    console.log(results);
-    callback(null, buildResponse('200', results));
 };
 
 exports.post = (event, context, callback) => {
