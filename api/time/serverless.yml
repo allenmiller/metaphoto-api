@@ -61,6 +61,7 @@ functions:
           authorizer: aws_iam
 
   postFilmStock:
+    handler: filmStock.post
     events:
       - http:
           path: filmstock
