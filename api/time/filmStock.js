@@ -59,6 +59,7 @@ exports.post = (event, context, callback) => {
         callback(null, buildResponse('400', message));
     }
 
+    message.push(typeof body.ISO);
     if (typeof body.ISO != 'number') {
         message.push("ISO must be a number.")
     }
