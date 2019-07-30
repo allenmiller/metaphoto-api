@@ -75,7 +75,7 @@ exports.post = (event, context, callback) => {
     const validateFilmType = utils.validateFilmType;
     const validationResult = validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
-        message.push("Film Type must be one of: " + JSON.stringify(...validationResult.validFilmTypes));
+        message.push("Film Type must be one of: " + JSON.stringify(...validationResult.validFilmTypes.entries()));
     }
 
     if (message.length > 0) {
