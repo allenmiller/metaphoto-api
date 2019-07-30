@@ -59,6 +59,12 @@ exports.post = (event, context, callback) => {
         callback(null, buildResponse('400', message));
     }
 
+    console.log(typeof body);
+    console.log(typeof body.ISO);
+    console.log(typeof body.xyz);
+    console.log(typeof body.filmName);
+    console.log(typeof body.filmname);
+
     message.push(typeof body.ISO);
     let iso = body.ISO;
     message.push(typeof iso);
