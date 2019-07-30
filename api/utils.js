@@ -5,7 +5,7 @@ module.exports = {
         return {
             statusCode: statusCode,
             body: JSON.stringify(body),
-            headers: getStandardHeaders()
+            headers: this.getStandardHeaders()
         }
     },
 
