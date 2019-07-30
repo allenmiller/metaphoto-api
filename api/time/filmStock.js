@@ -51,11 +51,29 @@ exports.post = (event, context, callback) => {
         ));
     };
 
+    let message = [];
+
     let body = event.body;
     if (body === null) {
-        callback(null, buildResponse('400', 'ERROR: request body is missing.'))
+        message.push("request body is mussing");
+        callback(null, buildResponse('400', message));
     }
 
+    if (typeof body.ISO != 'number') {
+        message.push("ISO must be a number.")
+    }
+
+    if (typeof body.filmName != 'string') {
+        message.push('filmName must be a string ("Kodak Tri-X"');
+    }
+
+    if (typeof body.filmCode != 'string') {
+        message.push('filmCode must be a string ("TXP"');
+    }
+
+    if (message.length > 0) {
+        callback(null, buildResponse('400', message));
+    }
     let primaryKey = "FilmSheet_" + uuidv1();
     let data = {
         "iso": 320,

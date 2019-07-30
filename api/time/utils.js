@@ -1,8 +1,8 @@
 module.exports= {
-    buildResponse: function buildResponse(statusCode, message) {
+    buildResponse: function buildResponse(statusCode, body) {
         return {
             statusCode: statusCode,
-            body: '{message: "' + message + '"}',
+            body: body,
             headers: {
                 'Content-Type': 'application/json'
             }
