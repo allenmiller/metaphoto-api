@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB.DocumentClient();
 const uuidv1 = require('uuid/v1');
 const utils = require('./utils');
 
@@ -14,6 +13,7 @@ exports.getAll = (event, context, callback) => {
         TableName: MEDIA_TABLE_NAME
     };
 
+    const dynamodb = new AWS.DynamoDB.DocumentClient();
     console.log("Scanning "+ MEDIA_TABLE_NAME +" table.");
     dynamodb.scan(params, onScan);
 
@@ -82,6 +82,8 @@ exports.post = (event, context, callback) => {
     let itemToPutStr = JSON.stringify(itemToPut);
 
     console.log("writing: ", itemToPutStr);
+
+    const dynamodb = new AWS.DynamoDB.DocumentClient();
     dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
 };
 
@@ -101,22 +103,15 @@ exports.put = (event, context, callback) => {
         "field2": true
     };
 
-    let payloadStr = JSON.stringify(data);
     let recordStr = {
         "primaryKey": "45-str",
-        "sortKey": "45-TXT-400",
-        "data" : payloadStr
-    };
-
-    let recordObj = {
-        "primaryKey": "45-obj",
-        "sortKey": "45-TXT-400",
+        "sortKey": data.iso.toString(),
         "data" : data
     };
 
     console.log("writing: ", recordStr);
+    const dynamodb = new AWS.DynamoDB.DocumentClient();
     dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
     console.log("writing: ", recordObj);
-    dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordObj}, done);
 
 };
