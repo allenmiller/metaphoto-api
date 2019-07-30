@@ -85,7 +85,8 @@ exports.post = (event, context, callback) => {
     let itemToPut = {};
     itemToPut.primaryHashKey = "FilmSheet_" + uuidv1();
     itemToPut.primaryRangeKey = requestBody.iso.toString();
-    itemToPut.gsi1HashKey = requestBody.filmCode;
+    itemToPut.gsi1HashKey = requestBody.filmType;
+    itemToPut.gsiRangeKey = requestBody.iso.toString();
     itemToPut.data = requestBody;
     let itemToPutStr = JSON.stringify(itemToPut);
 
