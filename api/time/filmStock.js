@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+const uuidv5 = require('uuid/v5');
 
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
@@ -49,6 +50,38 @@ exports.getAll = (event, context, callback) => {
     })
 };
 
+exports.post = (event, context, callback) => {
+    console.log('AJM put(): Received event:', JSON.stringify(event, null, 2));
+    console.log('context:', JSON.stringify(context, null, 2));
+    const done = (err, res) => {
+        console.log("AJM: in done()", err, res);
+        callback(null, {
+            statusCode: err ? '400' : '200',
+            body: err ? err.message : JSON.stringify(res),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
+    let primaryKey = "FilmSheet_" + uuidv5("sheetname", "metaphoto.ajmiller.net");
+    let data = {
+        "iso": 320,
+        "field1": "value1",
+        "field2": true
+    };
+
+    let payloadStr = JSON.stringify(data);
+    let recordStr = {
+        "primaryKey": primaryKey,
+        "sortKey": "45-TXT-400",
+        "data" : payloadStr
+    };
+
+    console.log("writing: ", recordStr);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
+};
+
 exports.put = (event, context, callback) => {
     console.log('AJM put(): Received event:', JSON.stringify(event, null, 2));
     console.log('context:', JSON.stringify(context, null, 2));
@@ -64,8 +97,8 @@ exports.put = (event, context, callback) => {
     };
     let data = {
         "iso": 320,
-            "field1": "value1",
-            "field2": true
+        "field1": "value1",
+        "field2": true
     };
 
     let payloadStr = JSON.stringify(data);
@@ -82,8 +115,8 @@ exports.put = (event, context, callback) => {
     };
 
     console.log("writing: ", recordStr);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
+    dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
     console.log("writing: ", recordObj);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordObj}, done);
+    dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordObj}, done);
 
 };
