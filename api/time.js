@@ -1,14 +1,7 @@
+const utils = require('./utils');
 exports.handler = (event, context, callback) => {
     let currentTime = new Date();
-    let response = {
-        statusCode: '200',
-        body: '{"data":"' + currentTime.toString() + '"}',
-        headers: {
-            'Access-Control-Allow-Origin': 'https://metaphoto.ajmiller.net',
-            'Access-Control-Allow-Credentials': true,
-            'Content-Type': 'application/json'
-        }
-    };
+    let response = utils.buildResponse("200", '{"data":"' + currentTime.toString() + '"}');
     console.log("AJM: ", response);
     callback(null, response);
 };

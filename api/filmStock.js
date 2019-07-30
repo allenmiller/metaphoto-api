@@ -5,6 +5,9 @@ const utils = require('./utils');
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
 const buildResponse = utils.buildResponse;
+
+let standardHeaders = utils.getStandardHeaders();
+
 exports.getAll = (event, context, callback) => {
     console.log('AJM getAll(): Received event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));

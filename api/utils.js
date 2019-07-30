@@ -1,11 +1,11 @@
-module.exports= {
+module.exports = {
+    WEB_APP_URL: process.env.WEB_APP_URL,
+
     buildResponse: function buildResponse(statusCode, body) {
         return {
             statusCode: statusCode,
             body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: getStandardHeaders()
         }
     },
 
@@ -35,5 +35,13 @@ module.exports= {
         return validFormats.has(filmFormat)
         ? {isValid: true}
         : {isValid: false, validFilmFormats: validFormats}
+    },
+
+    getStandardHeaders: function getStandardHeaders() {
+        return {
+            'Access-Control-Allow-Origin': WEB_APP_URL,
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type': 'application/json'
+        }
     }
 };

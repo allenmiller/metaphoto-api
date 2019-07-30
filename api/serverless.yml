@@ -7,9 +7,11 @@ provider:
   stage: dev
   region: "us-west-2"
   deploymentBucket: ${cf:metaphoto-us-west-2-dev.MetaphotoPipelineArtifactsBucket}
+  domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   mediaTableArn: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
   environment:
     MEDIA_TABLE_NAME: ${cf:metaphoto-us-west-2-dev.MediaTableName}
+    WEB_APP_URL: https://${self:provider.domain
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -26,7 +28,6 @@ plugins:
 
 custom:
   stage: ${opt:stage, self:provider.stage}
-  domain: ${cf:metaphoto-us-west-2-dev.MetaphotoHostedZone}
   certificateArn: ${cf:metaphoto-us-west-2-dev.MetaphotoCertificateArn}
 #  mediaTable: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
 
@@ -45,7 +46,7 @@ custom:
   customDomain:
     stage: ${self:custom.stage}
     basePath: ${self:custom.stage}
-    domainName: api.${self:custom.domain}
+    domainName: api.${self:provider.domain}
     certificateArn: ${self:custom.certificateArn}
     endpointType: REGIONAL
     createRoute53Record: true
