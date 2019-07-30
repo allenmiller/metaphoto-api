@@ -59,16 +59,7 @@ exports.post = (event, context, callback) => {
         callback(null, buildResponse('400', message));
     }
 
-    console.log(typeof body);
-    console.log(typeof body.ISO);
-    console.log(typeof body.xyz);
-    console.log(typeof body.filmName);
-    console.log(typeof body.filmname);
-
-    message.push(typeof body.ISO);
-    let iso = body.ISO;
-    message.push(typeof iso);
-    if (typeof iso != 'number') {
+    if (typeof body.iso != 'number') {
         message.push("ISO must be a number.")
     }
 
@@ -83,19 +74,9 @@ exports.post = (event, context, callback) => {
     if (message.length > 0) {
         callback(null, buildResponse('400', message));
     }
-    let primaryKey = "FilmSheet_" + uuidv1();
-    let data = {
-        "iso": 320,
-        "field1": "value1",
-        "field2": true
-    };
-
-    let payloadStr = JSON.stringify(data);
-    let recordStr = {
-        "primaryKey": primaryKey,
-        "sortKey": "45-TXT-400",
-        "data" : payloadStr
-    };
+    body.primaryKey = "FilmSheet_" + uuidv1();
+    body.sortKey = body.iso;
+    let recordStr = JSON.stringify(body);
 
     console.log("writing: ", recordStr);
     dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
