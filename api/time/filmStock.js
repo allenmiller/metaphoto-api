@@ -64,6 +64,17 @@ exports.post = (event, context, callback) => {
         });
     };
 
+    body = event.body;
+    if (body === null) {
+        response = {
+            statusCode: 400,
+            body: JSON.stringify("ERROR: request body is missing.")
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    }
+
     let primaryKey = "FilmSheet_" + uuidv1();
     let data = {
         "iso": 320,
