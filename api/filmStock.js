@@ -23,6 +23,7 @@ exports.getAll = (event, context, callback) => {
             let errorMessage = JSON.stringify(err);
             console.error("Unable to scan the table. Error JSON:", errorMessage);
             callback(null, buildResponse('404', err));
+            return;
         } else {
             console.log("Scan succeeded: ", data);
             data.Items.forEach(function(item) {
@@ -58,6 +59,7 @@ exports.post = (event, context, callback) => {
     if (requestBody === null) {
         messages.push("request body is missing");
         callback(null, buildResponse('400', messages));
+        return;
     }
 
     if (typeof requestBody.iso != 'number') {
@@ -80,7 +82,7 @@ exports.post = (event, context, callback) => {
 
     if (messages.length > 0) {
         callback(null, buildResponse('400', messages));
-        console.log("AFTER CALLBACK?")
+        return;
     }
 
     let itemToPut = {};
@@ -122,6 +124,4 @@ exports.put = (event, context, callback) => {
     console.log("writing: ", recordStr);
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
-    console.log("writing: ", recordObj);
-
 };
