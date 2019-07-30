@@ -11,7 +11,7 @@ provider:
   mediaTableArn: ${cf:metaphoto-us-west-2-dev.MediaTableArn}
   environment:
     MEDIA_TABLE_NAME: ${cf:metaphoto-us-west-2-dev.MediaTableName}
-    WEB_APP_URL: https://${self:provider.domain
+    WEB_APP_URL: https://${self:provider.domain}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
