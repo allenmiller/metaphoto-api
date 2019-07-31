@@ -2,7 +2,11 @@ module.exports = {
     WEB_APP_URL: process.env.WEB_APP_URL,
 
     buildResponse: function buildResponse(statusCode, body) {
-        let headers = this.getStandardHeaders();
+        let headers = {
+            'Access-Control-Allow-Origin': this.WEB_APP_URL,
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type': 'application/json'
+        };
         return {
             statusCode: statusCode,
             body: JSON.stringify(body),
@@ -37,12 +41,4 @@ module.exports = {
         ? {isValid: true}
         : {isValid: false, validFilmFormats: validFormats}
     },
-
-    getStandardHeaders: function getStandardHeaders() {
-        return {
-            'Access-Control-Allow-Origin': this.WEB_APP_URL,
-            'Access-Control-Allow-Credentials': true,
-            'Content-Type': 'application/json'
-        }
-    }
 };
