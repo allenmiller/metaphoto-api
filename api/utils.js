@@ -2,10 +2,11 @@ module.exports = {
     WEB_APP_URL: process.env.WEB_APP_URL,
 
     buildResponse: function buildResponse(statusCode, body) {
+        let headers = this.getStandardHeaders();
         return {
             statusCode: statusCode,
             body: JSON.stringify(body),
-            headers: this.getStandardHeaders()
+            headers: headers
         }
     },
 
