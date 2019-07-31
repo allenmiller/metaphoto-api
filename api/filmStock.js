@@ -38,7 +38,7 @@ exports.getAll = (event, context, callback) => {
                 dynamodb.scan(params, onScan);
             }
             console.log(results);
-            callback(null, buildResponse('200', results));
+            callback(null, buildResponse('200', JSON.stringify(results)));
         }
     }
 };
