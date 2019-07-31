@@ -2,7 +2,8 @@ module.exports = {
 
     buildResponse: function buildResponse(statusCode, body) {
         let headers = {
-            'Access-Control-Allow-Origin': process.env.WEB_APP_URL,
+//            'Access-Control-Allow-Origin': process.env.WEB_APP_URL,
+            'Access-Control-Allow-Origin': "*",
             'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json'
         };
