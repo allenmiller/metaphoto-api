@@ -22,6 +22,10 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: ${self:provider.mediaTableArn}
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+      Resource: ${self:provider.mediaTableArn}/index/${cf:metaphoto-us-west-2-dev.MediaTableGSI1
 
 plugins:
   - serverless-domain-manager
