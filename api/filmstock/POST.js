@@ -5,7 +5,7 @@ const utils = require('../utils');
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 const buildResponse = utils.buildResponse;
 
-exports.POST = (event, context, callback) => {
+exports.post = (event, context, callback) => {
     console.log('AJM post(): Received event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
     const done = (err, res) => {
