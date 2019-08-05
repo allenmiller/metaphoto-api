@@ -12,23 +12,10 @@ provider:
   environment:
     MEDIA_TABLE_NAME: ${cf:metaphoto-us-west-2-dev.MediaTableName}
     WEB_APP_URL: https://${self:provider.domain}
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: ${self:provider.mediaTableArn}
-    - Effect: "Allow"
-      Action:
-        - dynamodb:Query
-      Resource: ${self:provider.mediaTableArn}/index/${cf:metaphoto-us-west-2-dev.MediaTableGSI1}
 
 plugins:
   - serverless-domain-manager
+  - serverless-iam-roles-per-function
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -59,6 +46,12 @@ functions:
 
   putFilmStock:
     handler: filmStock.put
+    iamRoleStatementsInherit: false
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:UpdateItem
+        Resource: ${self:provider.mediaTableArn}
     events:
       - http:
           path: filmstock
@@ -68,6 +61,16 @@ functions:
 
   postFilmStock:
     handler: filmStock.post
+    iamRoleStatementsInherit: false
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+        Resource: ${self:provider.mediaTableArn}
+      - Effect: "Allow"
+        Action:
+          - dynamodb:Query
+        Resource: ${self:provider.mediaTableArn}/index/${cf:metaphoto-us-west-2-dev.MediaTableGSI1}
     events:
       - http:
           path: filmstock
@@ -77,6 +80,12 @@ functions:
 
   getAllFilmStocks:
     handler: filmStock.getAll
+    iamRoleStatementsInherit: false
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+        - dynamodb:Scan
+        Resource: ${self:provider.mediaTableArn}
     events:
       - http:
           path: filmstocks
@@ -86,6 +95,7 @@ functions:
 
   gettime:
     handler: time.handler
+    iamRoleStatementsInherit: false
     events:
       - http:
           path: time

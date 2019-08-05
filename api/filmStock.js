@@ -118,8 +118,8 @@ exports.post = (event, context, callback) => {
             console.log("ERROR checking for existing item: ", err);
             callback(null, buildResponse('500', err));
         } else {
-            console.log("AJM: back from get(): ", data.Item);
-            if (data.Item.length > 0) {
+            console.log("AJM: back from get(): ", data);
+            if (data && data.Item.length > 0) {
                 let existingKey = checkForExistingItemParams.Key;
                 console.log('NOTE: item already exists', existingKey);
                 callback(null, buildResponse('409', `A film stock record with name ${existingKey} already exists.`));
