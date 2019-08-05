@@ -44,7 +44,7 @@ exports.getAll = (event, context, callback) => {
 };
 
 exports.post = (event, context, callback) => {
-    console.log('AJM put(): Received event:', JSON.stringify(event));
+    console.log('AJM post(): Received event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
     const done = (err, res) => {
         console.log("AJM: in done()", err, res);
@@ -66,27 +66,27 @@ exports.post = (event, context, callback) => {
     let iso = parseInt(requestBody.iso, 10);
 
     if (isNaN(iso) || (iso <= 0)) {
-        messages.push("ISO must be a positive number.\n");
+        messages.push("ISO must be a positive number.");
     }
 
     if ((requestBody.filmName !== undefined && typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
     {
-        messages.push('Film Name must be a string ("Kodak Tri-X"\n');
+        messages.push('\nFilm Name must be a string ("Kodak Tri-X"');
     }
 
     if ((requestBody.filmCode !== undefined && typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
-        messages.push('Film Code must be a string ("TXP")\n');
+        messages.push('\nFilm Code must be a string ("TXP")');
     }
 
 
     let validationResult = utils.validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
-        messages.push(`Film Type must be one of: ${JSON.stringify([...validationResult.validFilmTypes])}\n`);
+        messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.validFilmTypes])}`);
     }
 
     validationResult = utils.validateFilmFormat(requestBody.filmFormat);
     if (!validationResult.isValid) {
-        messages.push(`Film Format must be one of: ${JSON.stringify([...validationResult.validFilmFormats])}\n`);
+        messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.validFilmFormats])}`);
     }
 
     if (messages.length > 0) {
@@ -98,7 +98,7 @@ exports.post = (event, context, callback) => {
     itemToPut.primaryHashKey = "FilmSheet_" + uuidv1();
     itemToPut.primaryRangeKey = requestBody.filmFormat;
     itemToPut.gsi1HashKey = requestBody.filmType;
-    itemToPut.gsi1RangeKey = iso;
+    itemToPut.gsi1RangeKey = requestBody.iso;
     itemToPut.data = requestBody;
     let itemToPutStr = JSON.stringify(itemToPut);
 
