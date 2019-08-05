@@ -113,7 +113,7 @@ exports.post = (event, context, callback) => {
     };
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-    dynamodb.get(checkForExistingItemParams, (err, data) => {
+    dynamodb.query(checkForExistingItemParams, (err, data) => {
         if (err) {
             console.log("ERROR checking for existing item: ", err);
             callback(null, buildResponse('500', err));
