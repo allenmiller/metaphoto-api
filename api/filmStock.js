@@ -105,13 +105,13 @@ exports.post = (event, context, callback) => {
     let checkForExistingItemParams = {
         TableName: MEDIA_TABLE_NAME,
         IndexName: "GSI_1",
-        KeyConditionExpression: `gsi1HashKey=${itemToPut.gsi1HashKey}`
-        // KeyConditionExpression: "#gsi1HashKey = :filmName",
-        // ExpressionAttributeNames: {"#gsi1HashKey": "gsi1HashKey"},
-        // ExpressionAttributeValues: {":filmName": itemToPut.gsi1HashKey}
-
+    //    KeyConditionExpression: `gsi1HashKey=${itemToPut.gsi1HashKey}`
+        KeyConditionExpression: "#gsi1HashKey = :filmName",
+        ExpressionAttributeNames: {"#gsi1HashKey": "gsi1HashKey"},
+        ExpressionAttributeValues: {":filmName": itemToPut.gsi1HashKey}
     };
 
+    console.log("AJM params: ", checkForExistingItemParams);
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     dynamodb.query(checkForExistingItemParams, (err, data) => {
         if (err) {
