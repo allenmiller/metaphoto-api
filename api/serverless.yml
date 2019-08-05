@@ -60,7 +60,7 @@ functions:
           authorizer: aws_iam
 
   postFilmStock:
-    handler: filmStock/POST.post
+    handler: filmstock/POST.post
     iamRoleStatementsInherit: false
     iamRoleStatements:
       - Effect: "Allow"
