@@ -104,7 +104,7 @@ exports.post = (event, context, callback) => {
 
     let checkForExistingItemParams = {
         TableName: MEDIA_TABLE_NAME,
-        Key: {gsi1HashKey: itemToPut.gsi1HashKey}
+        Key: {'gsi1HashKey': itemToPut.gsi1HashKey}
     };
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
