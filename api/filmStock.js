@@ -95,17 +95,36 @@ exports.post = (event, context, callback) => {
     }
 
     let itemToPut = {};
-    itemToPut.primaryHashKey = "FilmSheet_" + uuidv1();
+    itemToPut.primaryHashKey = "FilmStock_" + uuidv1();
     itemToPut.primaryRangeKey = requestBody.filmFormat;
-    itemToPut.gsi1HashKey = requestBody.filmType;
+    itemToPut.gsi1HashKey = requestBody.filmName;
     itemToPut.gsi1RangeKey = requestBody.iso;
     itemToPut.data = requestBody;
-    let itemToPutStr = JSON.stringify(itemToPut);
 
-    console.log("writing: ", itemToPutStr);
+
+    let checkForExistingItemParams = {
+        TableName: MEDIA_TABLE_NAME,
+        Key: {gsi1HashKey: itemToPut.gsi1HashKey}
+    };
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
+    dynamodb.get(checkForExistingItemParams, (err, data) => {
+        if (err) {
+            console.log("ERROR checking for existing item: ", err);
+            callback(null, buildResponse('500', err));
+        } else {
+            console.log("AJM: back from get(): ", data.Item);
+            if (data.Item.length > 0) {
+                let existingKey = checkForExistingItemParams.Key;
+                console.log('NOTE: item already exists', existingKey);
+                callback(null, buildResponse('409', `A film stock record with name ${existingKey} already exists.`));
+            } else {
+                let itemToPutStr = JSON.stringify(itemToPut);
+                console.log("writing: ", itemToPutStr);
+                dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
+            }
+        }
+    });
 };
 
 exports.put = (event, context, callback) => {
