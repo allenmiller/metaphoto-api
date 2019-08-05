@@ -7,17 +7,8 @@ module.exports = {
             'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json'
         };
-        let statusText;
-        switch (statusCode) {
-            case '200': statusText = "Success"; break;
-            case '400': statusText = "Invalid request"; break;
-            case '404': statusText = "Resource not found"; break;
-            case '500': statusText = "Internal server error"; break;
-            default: statusText = "";
-        }
         return {
             statusCode: statusCode,
-            statusText: statusText,
             body: JSON.stringify(body),
             headers: headers
         }
