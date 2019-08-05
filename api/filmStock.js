@@ -69,12 +69,12 @@ exports.post = (event, context, callback) => {
         messages.push("ISO must be a positive number.\n");
     }
 
-    if ((typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
+    if ((requestBody.filmName !== undefined && typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
     {
         messages.push('Film Name must be a string ("Kodak Tri-X"\n');
     }
 
-    if ((typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
+    if ((requestBody.filmCode !== undefined && typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
         messages.push('Film Code must be a string ("TXP")\n');
     }
 
