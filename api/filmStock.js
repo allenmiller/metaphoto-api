@@ -63,27 +63,30 @@ exports.post = (event, context, callback) => {
         return;
     }
 
-    if (typeof requestBody.iso != 'number') {
-        messages.push("ISO must be a number.")
+    let iso = parseInt(requestBody.iso, 10);
+
+    if (isNaN(iso) || (iso <= 0)) {
+        messages.push("ISO must be a positive number.\n");
     }
 
-    if (typeof requestBody.filmName != 'string') {
-        messages.push('Film Name must be a string ("Kodak Tri-X"');
+    if ((typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
+    {
+        messages.push('Film Name must be a string ("Kodak Tri-X"\n');
     }
 
-    if (typeof requestBody.filmCode != 'string') {
-        messages.push('Film Code must be a string ("TXP"');
+    if ((typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
+        messages.push('Film Code must be a string ("TXP")\n');
     }
 
 
     let validationResult = utils.validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
-        messages.push("Film Type must be one of: " + JSON.stringify([...validationResult.validFilmTypes]));
+        messages.push(`Film Type must be one of: ${JSON.stringify([...validationResult.validFilmTypes])}\n`);
     }
 
     validationResult = utils.validateFilmFormat(requestBody.filmFormat);
     if (!validationResult.isValid) {
-        messages.push("Film Format must be one of: " + JSON.stringify([...validationResult.validFilmFormats]));
+        messages.push(`Film Format must be one of: ${JSON.stringify([...validationResult.validFilmFormats])}\n`);
     }
 
     if (messages.length > 0) {
@@ -95,7 +98,7 @@ exports.post = (event, context, callback) => {
     itemToPut.primaryHashKey = "FilmSheet_" + uuidv1();
     itemToPut.primaryRangeKey = requestBody.filmFormat;
     itemToPut.gsi1HashKey = requestBody.filmType;
-    itemToPut.gsi1RangeKey = requestBody.iso.toString();
+    itemToPut.gsi1RangeKey = iso;
     itemToPut.data = requestBody;
     let itemToPutStr = JSON.stringify(itemToPut);
 
