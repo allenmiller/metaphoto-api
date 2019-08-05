@@ -67,7 +67,6 @@ exports.post = (event, context, callback) => {
     let checkForExistingItemParams = {
         TableName: MEDIA_TABLE_NAME,
         IndexName: "GSI_1",
-        //    KeyConditionExpression: `gsi1HashKey=${itemToPut.gsi1HashKey}`
         KeyConditionExpression: "#gsi1HashKey = :filmName",
         ExpressionAttributeNames: {"#gsi1HashKey": "gsi1HashKey"},
         ExpressionAttributeValues: {":filmName": itemToPut.gsi1HashKey}
@@ -82,9 +81,9 @@ exports.post = (event, context, callback) => {
         } else {
             console.log("AJM: back from get(): ", data);
             if (data && data.Count > 0) {
-                let existingKey = checkForExistingItemParams.Key;
+                let existingKey = itemToPut.gsi1HashKey;
                 console.log('NOTE: item already exists', existingKey);
-                callback(null, buildResponse('409', `A film stock record with name ${existingKey} already exists.`));
+                callback(null, buildResponse('409', `A film stock record with name "${existingKey}" already exists.`));
             } else {
                 let itemToPutStr = JSON.stringify(itemToPut);
                 console.log("writing: ", itemToPutStr);
