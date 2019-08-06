@@ -44,7 +44,7 @@ custom:
 
 functions:
   getFilmStockDefaults:
-    handler: filmstock/defaults/get
+    handler: filmstock/defaults/get.get
     iamRoleStatementsInherit: false
     events:
       - http:
