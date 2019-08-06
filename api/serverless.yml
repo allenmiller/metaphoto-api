@@ -1,4 +1,4 @@
-service: metaphoto-time
+service: metaphoto
 
 provider:
   name: aws
@@ -98,16 +98,6 @@ functions:
     events:
       - http:
           path: filmstocks
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  gettime:
-    handler: time.handler
-    iamRoleStatementsInherit: false
-    events:
-      - http:
-          path: time
           method: get
           cors: true
           authorizer: aws_iam
