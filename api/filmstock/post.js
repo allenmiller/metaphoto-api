@@ -67,9 +67,15 @@ exports.post = (event, context, callback) => {
     let checkForExistingItemParams = {
         TableName: MEDIA_TABLE_NAME,
         IndexName: "GSI_1",
-        KeyConditionExpression: "#gsi1HashKey = :filmName",
-        ExpressionAttributeNames: {"#gsi1HashKey": "gsi1HashKey"},
-        ExpressionAttributeValues: {":filmName": itemToPut.gsi1HashKey}
+        KeyConditionExpression: "#gsi1HashKey = :filmName and #gsi1RangeKey = :filmFormat",
+        ExpressionAttributeNames: {
+            "#gsi1HashKey": "gsi1HashKey",
+            "#gsi1RangeKey": "gsi1RangeKey"
+        },
+        ExpressionAttributeValues: {
+            ":filmName": itemToPut.gsi1HashKey,
+            ":filmFormat": itemToPut.gsi1RangeKey
+        }
     };
 
     console.log("AJM params: ", checkForExistingItemParams);
@@ -81,9 +87,10 @@ exports.post = (event, context, callback) => {
         } else {
             console.log("AJM: back from get(): ", data);
             if (data && data.Count > 0) {
-                let existingKey = itemToPut.gsi1HashKey;
-                console.log('NOTE: item already exists', existingKey);
-                callback(null, buildResponse('409', `A film stock record with name "${existingKey}" already exists.`));
+                let existingFilmName = itemToPut.gsi1HashKey;
+                let existingFilmFormat = itemToPut.gsi1RangeKey;
+                console.log('NOTE: item already exists', existingFilmName);
+                callback(null, buildResponse('409', `A film stock record with name "${existingFilmName}" and format "${existingFilmFormat}"already exists.`));
             } else {
                 let itemToPutStr = JSON.stringify(itemToPut);
                 console.log("writing: ", itemToPutStr);
