@@ -10,5 +10,6 @@ exports.get = (event, context, callback) => {
         filmTypes: validFilmTypes
     };
 
-    callback(null, utils.buildResponse('200', JSON.stringify(defaults)));
+    console.log("returning defaults: ", defaults);
+    callback(null, utils.buildResponse('200', defaults));
 };
