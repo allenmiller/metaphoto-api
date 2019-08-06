@@ -6,8 +6,8 @@ exports.get = (event, context, callback) => {
     const validFilmTypes = utils.getValidFilmTypes();
 
     let defaults = {
-        filmFormats: validFilmFormats,
-        filmTypes: validFilmTypes
+        filmFormats: [...validFilmFormats],
+        filmTypes: [...validFilmTypes]
     };
 
     console.log("returning defaults: ", defaults);
