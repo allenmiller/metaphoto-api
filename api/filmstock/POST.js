@@ -43,12 +43,12 @@ exports.post = (event, context, callback) => {
 
     let validationResult = utils.validateFilmType(requestBody.filmType);
     if (!validationResult.isValid) {
-        messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.validFilmTypes])}`);
+        messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.getValidFilmTypes])}`);
     }
 
     validationResult = utils.validateFilmFormat(requestBody.filmFormat);
     if (!validationResult.isValid) {
-        messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.validFilmFormats])}`);
+        messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.getValidFilmFormats])}`);
     }
 
     if (messages.length > 0) {

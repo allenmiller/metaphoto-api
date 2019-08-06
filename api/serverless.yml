@@ -43,6 +43,15 @@ custom:
     createRoute53Record: true
 
 functions:
+  getFilmStockDefaults:
+    handler: filmstock/defaults/get
+    iamRoleStatementsInherit: false
+    events:
+      - http:
+          path: filmstock/defaults
+          method: get
+          cors: true
+          authorizer: aws_iam
 
   putFilmStock:
     handler: filmStock.put
