@@ -30,9 +30,9 @@ module.exports = {
 
     getValidFilmTypes: getValidFilmTypes = () => {
         return new Set([
-            "COLOR_NEGATIVE",
-            "COLOR_POSITIVE",
             "BLACK_AND_WHITE",
+            "COLOR_POSITIVE",
+            "COLOR_NEGATIVE",
             "COLOR_POLAROID",
             "BLACK_AND_WHITE_POLAROID"
         ]);
@@ -40,12 +40,12 @@ module.exports = {
 
     getValidFilmFormats: getValidFilmFormats = () => {
         return new Set([
+            "4x5",
+            "8x10",
             "35mm",
             "120",
             "116",
-            "220",
-            "4x5",
-            "8x10"
+            "220"
         ]);
     }
 };
