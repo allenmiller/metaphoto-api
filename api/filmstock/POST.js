@@ -60,7 +60,7 @@ exports.post = (event, context, callback) => {
     itemToPut.primaryHashKey = "FilmStock_" + uuidv1();
     itemToPut.primaryRangeKey = requestBody.filmFormat;
     itemToPut.gsi1HashKey = requestBody.filmName;
-    itemToPut.gsi1RangeKey = requestBody.iso;
+    itemToPut.gsi1RangeKey = requestBody.filmFormat;
     itemToPut.data = requestBody;
 
 
