@@ -9,14 +9,15 @@ exports.delete = (event, context, callback) => {
     console.log('context:', JSON.stringify(context));
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-
+    let itemToDelete = event.pathParameters.filmstockId;
     let deleteParams = {
         TableName: MEDIA_TABLE_NAME,
         Key: {
-            "primaryHashKey": "ABC"
+            "primaryHashKey": itemToDelete
         }
     };
 
+    console.log("Deleting item ", deleteParams);
     // TODO: add check to prevent deletion of filmstock item pointed to by film items.
     dynamodb.delete(deleteParams, (err, data) => {
         if (err) {
