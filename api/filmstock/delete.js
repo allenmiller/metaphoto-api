@@ -9,11 +9,13 @@ exports.delete = (event, context, callback) => {
     console.log('context:', JSON.stringify(context));
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-    let itemToDelete = event.pathParameters.filmstockId;
+    let hashKey = event.pathParameters.filmstockId;
+    let rangeKey = event.pathParameters.filmFormat;
     let deleteParams = {
         TableName: MEDIA_TABLE_NAME,
         Key: {
-            "primaryHashKey": itemToDelete
+            "primaryHashKey": hashKey,
+            "primaryRangeKey": rangeKey
         }
     };
 
@@ -22,7 +24,7 @@ exports.delete = (event, context, callback) => {
     dynamodb.delete(deleteParams, (err, data) => {
         if (err) {
             console.log("ERROR deleting item: ", err);
-            callback(null, buildResponse('500', err));
+            callback(null, buildResponse(err.statusCode, err.message));
         } else {
             console.log("AJM: back from delete(): ", data);
             callback(null, buildResponse('200', `item deleted`));

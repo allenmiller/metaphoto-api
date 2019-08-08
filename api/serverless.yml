@@ -78,7 +78,7 @@ functions:
         Resource: ${self:provider.mediaTableArn}
     events:
       - http:
-          path: filmstock/{filmstockId}
+          path: filmstock/{filmstockId}/{filmFormat}
           method: delete
           cors: true
           authorizer: aws_iam
