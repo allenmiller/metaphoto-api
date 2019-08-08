@@ -68,6 +68,21 @@ functions:
           cors: true
           authorizer: aws_iam
 
+  deleteFilmStock:
+    handler: filmstock/delete.delete
+    iamRoleStatementsInherit: false
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:DeleteItem
+        Resource: ${self:provider.mediaTableArn}
+    events:
+      - http:
+          path: filmstock
+          method: delete
+          cors: true
+          authorizer: aws_iam
+
   postFilmStock:
     handler: filmstock/post.post
     iamRoleStatementsInherit: false
