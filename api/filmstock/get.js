@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk');
-const uuidv1 = require('uuid/v1');
-const utils = require('./utils');
+const utils = require('../utils');
 
 const MEDIA_TABLE_NAME = process.env.MEDIA_TABLE_NAME;
 
