@@ -16,52 +16,18 @@ exports.post = (event, context, callback) => {
         ));
     };
 
-    let messages = [];
-
-    let requestBody = JSON.parse(event.body);
-    if (requestBody === null) {
-        messages.push("request body is missing");
-        callback(null, buildResponse('400', messages));
-        return;
-    }
-
-    let iso = parseInt(requestBody.iso, 10);
-
-    if (isNaN(iso) || (iso <= 0)) {
-        messages.push("ISO must be a positive number.");
-    }
-
-    if ((requestBody.filmName !== undefined && typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
-    {
-        messages.push('\nFilm Name must be a string ("Kodak Tri-X"');
-    }
-
-    if ((requestBody.filmCode !== undefined && typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
-        messages.push('\nFilm Code must be a string ("TXP")');
-    }
-
-
-    let validationResult = utils.validateFilmType(requestBody.filmType);
-    if (!validationResult.isValid) {
-        messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.getValidFilmTypes])}`);
-    }
-
-    validationResult = utils.validateFilmFormat(requestBody.filmFormat);
-    if (!validationResult.isValid) {
-        messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.getValidFilmFormats])}`);
-    }
-
+    let messages = utils.validateFilmstockRequest(JSON.parse(event.body));
     if (messages.length > 0) {
         callback(null, buildResponse('400', messages));
         return;
     }
 
-    let itemToPut = {};
-    itemToPut.primaryHashKey = "FilmStock_" + uuidv1();
-    itemToPut.primaryRangeKey = requestBody.filmFormat;
-    itemToPut.gsi1HashKey = requestBody.filmName;
-    itemToPut.gsi1RangeKey = requestBody.filmFormat;
-    itemToPut.data = requestBody;
+    let itemToPost = {};
+    itemToPost.primaryHashKey = "FilmStock_" + uuidv1();
+    itemToPost.primaryRangeKey = requestBody.filmFormat;
+    itemToPost.gsi1HashKey = requestBody.filmName;
+    itemToPost.gsi1RangeKey = requestBody.filmFormat;
+    itemToPost.data = requestBody;
 
 
     let checkForExistingItemParams = {
@@ -73,8 +39,8 @@ exports.post = (event, context, callback) => {
             "#gsi1RangeKey": "gsi1RangeKey"
         },
         ExpressionAttributeValues: {
-            ":filmName": itemToPut.gsi1HashKey,
-            ":filmFormat": itemToPut.gsi1RangeKey
+            ":filmName": itemToPost.gsi1HashKey,
+            ":filmFormat": itemToPost.gsi1RangeKey
         }
     };
 
@@ -87,14 +53,14 @@ exports.post = (event, context, callback) => {
         } else {
             console.log("AJM: back from get(): ", data);
             if (data && data.Count > 0) {
-                let existingFilmName = itemToPut.gsi1HashKey;
-                let existingFilmFormat = itemToPut.gsi1RangeKey;
+                let existingFilmName = itemToPost.gsi1HashKey;
+                let existingFilmFormat = itemToPost.gsi1RangeKey;
                 console.log('NOTE: item already exists', existingFilmName);
                 callback(null, buildResponse('409', `A film stock record with name "${existingFilmName}" and format "${existingFilmFormat}"already exists.`));
             } else {
-                let itemToPutStr = JSON.stringify(itemToPut);
+                let itemToPutStr = JSON.stringify(itemToPost);
                 console.log("writing: ", itemToPutStr);
-                dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
+                dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPost}, done);
             }
         }
     });

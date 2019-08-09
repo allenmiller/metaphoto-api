@@ -54,7 +54,7 @@ functions:
           authorizer: aws_iam
 
   putFilmStock:
-    handler: filmStock.put
+    handler: filmstock/put.put
     iamRoleStatementsInherit: false
     iamRoleStatements:
       - Effect: "Allow"
@@ -63,7 +63,7 @@ functions:
         Resource: ${self:provider.mediaTableArn}
     events:
       - http:
-          path: filmstock
+          path: filmstock/{filmstockId}/{filmFormat}
           method: put
           cors: true
           authorizer: aws_iam
@@ -103,7 +103,7 @@ functions:
           authorizer: aws_iam
 
   getAllFilmStocks:
-    handler: filmStock.getAll
+    handler: filmstock/get.get
     iamRoleStatementsInherit: false
     iamRoleStatements:
       - Effect: "Allow"

@@ -27,6 +27,41 @@ module.exports = {
         : {isValid: false, getValidFilmFormats: validFormats}
     },
 
+    validateFilmstockRequest: validateFilmstockRequest = (requestBody) => {
+        let messages = [];
+        if (requestBody === null) {
+            messages.push("request body is missing");
+            return messages;
+        }
+
+        let iso = parseInt(requestBody.iso, 10);
+
+        if (isNaN(iso) || (iso <= 0)) {
+            messages.push("ISO must be a positive number.");
+        }
+
+        if ((requestBody.filmName !== undefined && typeof requestBody.filmName != 'string') && (requestBody.filmName.length < 1))
+        {
+            messages.push('\nFilm Name must be a string ("Kodak Tri-X"');
+        }
+
+        if ((requestBody.filmCode !== undefined && typeof requestBody.filmCode != 'string') && (requestBody.filmCode.length < 1)){
+            messages.push('\nFilm Code must be a string ("TXP")');
+        }
+
+
+        let validationResult = utils.validateFilmType(requestBody.filmType);
+        if (!validationResult.isValid) {
+            messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.getValidFilmTypes])}`);
+        }
+
+        validationResult = utils.validateFilmFormat(requestBody.filmFormat);
+        if (!validationResult.isValid) {
+            messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.getValidFilmFormats])}`);
+        }
+        return messages;
+    },
+
     getValidFilmTypes: getValidFilmTypes = () => {
         return new Set([
             "BLACK_AND_WHITE",

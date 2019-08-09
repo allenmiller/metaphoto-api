@@ -42,30 +42,3 @@ exports.getAll = (event, context, callback) => {
         }
     }
 };
-
-exports.put = (event, context, callback) => {
-    console.log('AJM put(): Received event:', JSON.stringify(event));
-    console.log('context:', JSON.stringify(context));
-    const done = (err, res) => {
-        console.log("AJM: in done()", err, res);
-        callback(null, buildResponse(
-            err ? '400' : '200',
-            err ? err.message : JSON.stringify(res)
-        ));
-    };
-    let data = {
-        "iso": 320,
-        "field1": "value1",
-        "field2": true
-    };
-
-    let recordStr = {
-        "primaryKey": "45-str",
-        "sortKey": data.iso.toString(),
-        "data" : data
-    };
-
-    console.log("writing: ", recordStr);
-    const dynamodb = new AWS.DynamoDB.DocumentClient();
-    dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: recordStr}, done);
-};
