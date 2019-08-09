@@ -15,22 +15,23 @@ exports.put = (event, context, callback) => {
         ));
     };
 
-    let messages = utils.validateFilmstockRequest(JSON.parse(event.body));
+    let requestBody = JSON.parse(event.body);
+    let messages = utils.validateFilmstockRequest(requestBody);
     if (messages.length > 0) {
         callback(null, buildResponse('400', messages));
         return;
     }
 
-    let itemToPost = {};
-    itemToPost.primaryHashKey = undefined;
-    itemToPost.primaryRangeKey = undefined;
-    itemToPost.gsi1HashKey = requestBody.filmName;
-    itemToPost.gsi1RangeKey = requestBody.filmFormat;
-    itemToPost.data = requestBody;
+    let itemToPut = {};
+    itemToPut.primaryHashKey = event.pathParameters.filmstockId;
+    itemToPut.primaryRangeKey = event.pathParameters.filmFormat;
+    itemToPut.gsi1HashKey = requestBody.filmName;
+    itemToPut.gsi1RangeKey = requestBody.filmFormat;
+    itemToPut.data = requestBody;
 
     console.log("AJM params: ", checkForExistingItemParams);
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-    let itemToPutStr = JSON.stringify(itemToPost);
+    let itemToPutStr = JSON.stringify(itemToPut);
     console.log("writing: ", itemToPutStr);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPost}, done);
+    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
 };

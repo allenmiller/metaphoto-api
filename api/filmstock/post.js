@@ -16,7 +16,8 @@ exports.post = (event, context, callback) => {
         ));
     };
 
-    let messages = utils.validateFilmstockRequest(JSON.parse(event.body));
+    let requestBody = JSON.parse(event.body);
+    let messages = utils.validateFilmstockRequest(requestBody);
     if (messages.length > 0) {
         callback(null, buildResponse('400', messages));
         return;
