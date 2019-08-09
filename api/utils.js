@@ -50,12 +50,12 @@ module.exports = {
         }
 
 
-        let validationResult = utils.validateFilmType(requestBody.filmType);
+        let validationResult = validateFilmType(requestBody.filmType);
         if (!validationResult.isValid) {
             messages.push(`\nFilm Type must be one of: ${JSON.stringify([...validationResult.getValidFilmTypes])}`);
         }
 
-        validationResult = utils.validateFilmFormat(requestBody.filmFormat);
+        validationResult = validateFilmFormat(requestBody.filmFormat);
         if (!validationResult.isValid) {
             messages.push(`\nFilm Format must be one of: ${JSON.stringify([...validationResult.getValidFilmFormats])}`);
         }
