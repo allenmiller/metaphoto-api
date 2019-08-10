@@ -33,7 +33,7 @@ exports.put = (event, context, callback) => {
         TableName: MEDIA_TABLE_NAME,
         Key: {
             "primaryHashKey": event.pathParameters.filmStockId,
-            "primaryRangeKey": event.pathParameters.filmFormata
+            "primaryRangeKey": event.pathParameters.filmFormat
         },
         Item: itemToPut
     };
