@@ -29,7 +29,6 @@ exports.put = (event, context, callback) => {
     itemToPut.gsi1RangeKey = requestBody.filmFormat;
     itemToPut.data = requestBody;
 
-    console.log("AJM params: ", checkForExistingItemParams);
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     let itemToPutStr = JSON.stringify(itemToPut);
     console.log("writing: ", itemToPutStr);
