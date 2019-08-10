@@ -32,8 +32,8 @@ exports.put = (event, context, callback) => {
     let updateParams = {
         TableName: MEDIA_TABLE_NAME,
         Key: {
-            HashKey: "primaryHashKey",
-            RangeKey: "primaryRangeKey"
+            "HashKey": "primaryHashKey",
+            "RangeKey": "primaryRangeKey"
         },
         Item: itemToPut
     };
