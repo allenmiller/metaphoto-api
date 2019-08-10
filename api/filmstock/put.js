@@ -32,5 +32,5 @@ exports.put = (event, context, callback) => {
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     let itemToPutStr = JSON.stringify(itemToPut);
     console.log("writing: ", itemToPutStr);
-    dynamodb.put({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
+    dynamodb.update({TableName: MEDIA_TABLE_NAME, Item: itemToPut}, done);
 };
