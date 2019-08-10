@@ -32,8 +32,8 @@ exports.put = (event, context, callback) => {
     let updateParams = {
         TableName: MEDIA_TABLE_NAME,
         Key: {
-            "primaryHashKey": event.pathParameters.filmStockId,
-            "primaryRangeKey": event.pathParameters.filmFormat
+            HashKey: "primaryHashKey",
+            RangeKey: "primaryRangeKey"
         },
         Item: itemToPut
     };
