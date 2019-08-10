@@ -29,17 +29,13 @@ exports.put = (event, context, callback) => {
     itemToPut.gsi1RangeKey = requestBody.filmFormat;
     itemToPut.data = requestBody;
 
-    let updateParams = {
+    let putParams = {
         TableName: MEDIA_TABLE_NAME,
-        Key: {
-            "HashKey": "primaryHashKey",
-            "RangeKey": "primaryRangeKey"
-        },
         Item: itemToPut
     };
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     let itemToPutStr = JSON.stringify(itemToPut);
     console.log("writing: ", itemToPutStr);
-    dynamodb.update(updateParams, done);
+    dynamodb.put(putParams, done);
 };
